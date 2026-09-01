@@ -10,9 +10,33 @@
 		BAC623F73046A91C0076042E /* 05-HPTrivia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "05-HPTrivia.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BAC624243046B00C0076042E /* Exceptions for "05-HPTrivia" folder in "05-HPTrivia" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DevPlan.md,
+			);
+			target = BAC623F63046A91C0076042E /* 05-HPTrivia */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		BAC624253046B00C0076042E /* Exceptions for "05-HPTrivia" folder in "Compile Sources" phase from "05-HPTrivia" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = BAC623F33046A91C0076042E /* Sources */;
+			membershipExceptions = (
+				DevPlan.md,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BAC623F93046A91C0076042E /* 05-HPTrivia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BAC624243046B00C0076042E /* Exceptions for "05-HPTrivia" folder in "05-HPTrivia" target */,
+				BAC624253046B00C0076042E /* Exceptions for "05-HPTrivia" folder in "Compile Sources" phase from "05-HPTrivia" target */,
+			);
 			path = "05-HPTrivia";
 			sourceTree = "<group>";
 		};
