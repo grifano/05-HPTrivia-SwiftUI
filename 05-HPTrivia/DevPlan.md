@@ -2,7 +2,7 @@
 
 ## Screens
 - [ ] Game Intro screen
-- [ ] Instructions screen
+- [🟡] Instructions screen
 - [ ] Gameplay screen
 - [ ] Store
 
