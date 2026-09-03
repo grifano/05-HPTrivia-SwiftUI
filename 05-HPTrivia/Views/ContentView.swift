@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @State private var audioPlayer: AVAudioPlayer!
     @State private var animatedViewIn = false
+    @State private var animatedButtonPlay = false
     
     var body: some View {
         GeometryReader { geo in
@@ -49,6 +50,38 @@ struct ContentView: View {
                     .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
                     
                     Spacer()
+                    Spacer()
+                    Spacer()
+                    
+                    VStack {
+                        if animatedViewIn {
+                            VStack {
+                                Button {
+                                    // action
+                                } label: {
+                                    Text("Play")
+                                        .font(.largeTitle)
+                                }
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 10)
+                                .buttonStyle(.glassProminent)
+                                .buttonSizing(.flexible)
+                                .tint(Color(red: 86/255, green: 93/255, blue: 139/255))
+                                .frame(maxWidth: 200)
+                                .scaleEffect(animatedButtonPlay ? 1.2 : 1)
+                                .onAppear() {
+                                    withAnimation(.easeInOut(duration: 1.1).repeatForever()) {
+                                        animatedButtonPlay.toggle()
+                                    }
+                                }
+                            }
+                            .transition(.offset(y: geo.size.height / 3))
+                            
+                        }
+                    }
+                    .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
+                    
+                    Spacer()
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height)
@@ -56,6 +89,7 @@ struct ContentView: View {
         .ignoresSafeArea()
         .onAppear {
             animatedViewIn = true
+            animatedButtonPlay = true
 //            playAudio()
         }
     }
