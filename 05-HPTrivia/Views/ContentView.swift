@@ -50,10 +50,30 @@ struct ContentView: View {
                             .transition(.move(edge: .top))
                         }
                     }
-                    .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
+                    .animation(.easeOut(duration: 0.7).delay(0.5), value: animatedViewIn)
                     
                     Spacer()
-                    Spacer()
+                    VStack {
+                        if animatedViewIn {
+                            VStack {
+                                Text("Latest score:")
+                                    .font(.title2)
+                                
+                                Text("33")
+                                Text("27")
+                                Text("15")
+                            }
+                            .foregroundStyle(.white)
+                            .font(.title3)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 42)
+                            .background(.black.opacity(0.6))
+                            .clipShape(.rect(cornerRadius: 30))
+                            .transition(.opacity)
+                        }
+                    }
+                    .animation(.smooth(duration: 1.2).delay(1.2), value: animatedViewIn)
+                    
                     Spacer()
                     
                     HStack {
@@ -71,7 +91,7 @@ struct ContentView: View {
                                 .transition(.offset(x: -geo.size.width / 2))
                             }
                         }
-                        .animation(.easeInOut(duration: 1.2).delay(2), value: animatedViewIn)
+                        .animation(.easeInOut(duration: 1.5).delay(1), value: animatedViewIn)
                         
                         Spacer()
                         
@@ -90,9 +110,9 @@ struct ContentView: View {
                                     .buttonSizing(.flexible)
                                     .tint(Color(red: 86/255, green: 93/255, blue: 139/255))
                                     .frame(maxWidth: 200)
-                                    .scaleEffect(animatedButtonPlay ? 1.2 : 1)
+                                    .scaleEffect(animatedButtonPlay ? 1.1 : 1)
                                     .onAppear() {
-                                        withAnimation(.easeInOut(duration: 1.1).repeatForever()) {
+                                        withAnimation(.easeInOut(duration: 1).repeatForever()) {
                                             animatedButtonPlay.toggle()
                                         }
                                     }
@@ -101,7 +121,7 @@ struct ContentView: View {
                                 
                             }
                         }
-                        .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
+                        .animation(.easeOut(duration: 0.7).delay(0.5), value: animatedViewIn)
                         
                         Spacer()
                         VStack {
@@ -116,7 +136,7 @@ struct ContentView: View {
                                 .transition(.offset(x: geo.size.width / 2))
                             }
                         }
-                        .animation(.easeInOut(duration: 1.2).delay(2), value: animatedViewIn)
+                        .animation(.easeInOut(duration: 1.5).delay(1), value: animatedViewIn)
                         
                         Spacer()
                     }
