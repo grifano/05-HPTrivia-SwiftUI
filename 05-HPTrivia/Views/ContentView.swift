@@ -13,6 +13,9 @@ struct ContentView: View {
     @State private var audioPlayer: AVAudioPlayer!
     @State private var animatedViewIn = false
     @State private var animatedButtonPlay = false
+    @State private var showInstructionView = false
+    @State private var showSettingsView = false
+    @State private var startGame = false
     
     var body: some View {
         GeometryReader { geo in
@@ -53,33 +56,71 @@ struct ContentView: View {
                     Spacer()
                     Spacer()
                     
-                    VStack {
-                        if animatedViewIn {
-                            VStack {
+                    HStack {
+                        
+                        Spacer()
+                        VStack {
+                            if animatedViewIn {
                                 Button {
-                                    // action
+                                    showInstructionView.toggle()
                                 } label: {
-                                    Text("Play")
+                                    Image(systemName: "info.circle.fill")
                                         .font(.largeTitle)
+                                        .foregroundStyle(.white)
                                 }
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 10)
-                                .buttonStyle(.glassProminent)
-                                .buttonSizing(.flexible)
-                                .tint(Color(red: 86/255, green: 93/255, blue: 139/255))
-                                .frame(maxWidth: 200)
-                                .scaleEffect(animatedButtonPlay ? 1.2 : 1)
-                                .onAppear() {
-                                    withAnimation(.easeInOut(duration: 1.1).repeatForever()) {
-                                        animatedButtonPlay.toggle()
+                                .transition(.offset(x: -geo.size.width / 2))
+                            }
+                        }
+                        .animation(.easeInOut(duration: 1.2).delay(2), value: animatedViewIn)
+                        
+                        Spacer()
+                        
+                        VStack {
+                            if animatedViewIn {
+                                VStack {
+                                    Button {
+                                        startGame.toggle()
+                                    } label: {
+                                        Text("Play")
+                                            .font(.largeTitle)
+                                    }
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 10)
+                                    .buttonStyle(.glassProminent)
+                                    .buttonSizing(.flexible)
+                                    .tint(Color(red: 86/255, green: 93/255, blue: 139/255))
+                                    .frame(maxWidth: 200)
+                                    .scaleEffect(animatedButtonPlay ? 1.2 : 1)
+                                    .onAppear() {
+                                        withAnimation(.easeInOut(duration: 1.1).repeatForever()) {
+                                            animatedButtonPlay.toggle()
+                                        }
                                     }
                                 }
+                                .transition(.offset(y: geo.size.height / 3))
+                                
                             }
-                            .transition(.offset(y: geo.size.height / 3))
-                            
                         }
+                        .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
+                        
+                        Spacer()
+                        VStack {
+                            if animatedViewIn {
+                                Button {
+                                    showSettingsView.toggle()
+                                } label: {
+                                    Image(systemName: "gear.circle.fill")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.white)
+                                }
+                                .transition(.offset(x: geo.size.width / 2))
+                            }
+                        }
+                        .animation(.easeInOut(duration: 1.2).delay(2), value: animatedViewIn)
+                        
+                        Spacer()
                     }
-                    .animation(.easeOut(duration: 0.7).delay(2), value: animatedViewIn)
+                    .frame(width: geo.size.width)
                     
                     Spacer()
                 }
@@ -91,6 +132,9 @@ struct ContentView: View {
             animatedViewIn = true
             animatedButtonPlay = true
 //            playAudio()
+        }
+        .sheet(isPresented: $showInstructionView) {
+            InfoScreenView()
         }
     }
     

@@ -48,12 +48,18 @@ struct InfoScreenView: View {
                 .font(.title2)
                 .padding(.vertical, 40)
                 
-                Button("Done") {
+                Button {
                     dismiss()
+                } label: {
+                    Text("Done")
+                        .font(.largeTitle)
                 }
-                .font(.largeTitle)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 10)
                 .buttonStyle(.glassProminent)
-                .tint(.brown.mix(with: .black, by: 0.3))
+                .buttonSizing(.flexible)
+                .tint(.brown)
+                .frame(maxWidth: 200)
             }
             .padding(.bottom, 40)
         }
