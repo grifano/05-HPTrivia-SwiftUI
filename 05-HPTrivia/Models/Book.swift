@@ -1,0 +1,17 @@
+//
+//  Book.swift
+//  05-HPTrivia
+//
+//  Created by sorlenko on 06/09/2026.
+//
+
+struct Book: Identifiable {
+    let id: Int
+    let title: String
+    let questions: [Question]
+    var status: BookStatus
+    
+    enum BookStatus {
+        case active, inactive, locked
+    }
+}
