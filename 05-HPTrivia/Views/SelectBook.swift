@@ -13,6 +13,16 @@ struct SelectBook: View {
     
     @State private var showPurchaseAllert = false
     
+    var activeBook: Bool {
+        for book in game.booksWithQuestions.books {
+            if book.status == .active {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     var body: some View {
         ZStack {
             Image(.parchment)
@@ -28,65 +38,21 @@ struct SelectBook: View {
                         ForEach(game.booksWithQuestions.books) {book in
                             switch book.status {
                             case .active:
-                                ZStack(alignment: .bottomTrailing) {
-                                    Image(book.image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipShape(.rect(cornerRadius: 12))
-                                        .shadow(color: .black.opacity(0.2), radius: 8)
-                                    
-                                    Image(systemName: "checkmark.square.fill")
-                                        .font(.largeTitle)
-                                        .imageScale(.large)
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                }
-                                .padding(8)
+                                ActiveBook(book: book)
                                 .onTapGesture {
                                     withAnimation {
                                         game.booksWithQuestions.setStatus(for: book.id, to: .inactive)
                                     }
                                 }
                             case .inactive:
-                                ZStack(alignment: .bottomTrailing) {
-                                    Image(book.image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipShape(.rect(cornerRadius: 12))
-                                        .shadow(color: .black.opacity(0.2), radius: 8)
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .opacity(0.3)
-                                        }
-                                    
-                                    Image(systemName: "square")
-                                        .font(.largeTitle)
-                                        .imageScale(.large)
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                }
-                                .padding(8)
+                                InactiveBook(book: book)
                                 .onTapGesture {
                                     withAnimation {
                                         game.booksWithQuestions.setStatus(for: book.id, to: .active)
                                     }
                                 }
                             default:
-                                ZStack(alignment: .bottomTrailing) {
-                                    Image(book.image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .clipShape(.rect(cornerRadius: 12))
-                                        .shadow(color: .black.opacity(0.2), radius: 8)
-                                    
-                                    Image(systemName: "lock.fill")
-                                        .font(.largeTitle)
-                                        .imageScale(.large)
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                }
-                                .padding(8)
-                                .saturation(0)
+                                LockedBook(book: book)
                                 .onTapGesture {
                                     withAnimation {
                                         game.booksWithQuestions.setStatus(for: book.id, to: .inactive)
@@ -100,6 +66,11 @@ struct SelectBook: View {
                 .font(.title2)
                 .padding(.bottom, 40)
                 
+                if !activeBook {
+                    Text("You need select at least one book")
+                        .multilineTextAlignment(.center)
+                }
+                
                 Button {
                     dismiss()
                 } label: {
@@ -112,9 +83,11 @@ struct SelectBook: View {
                 .buttonSizing(.flexible)
                 .tint(.brown)
                 .frame(maxWidth: 200)
+                .disabled(!activeBook)
             }
             .padding(20)
         }
+        .interactiveDismissDisabled(!activeBook)
     }
 }
 
