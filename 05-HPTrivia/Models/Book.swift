@@ -7,7 +7,7 @@
 
 struct Book: Identifiable {
     let id: Int
-    let title: String
+    let image: String
     let questions: [Question]
     var status: BookStatus
     
