@@ -1,5 +1,5 @@
 //
-//  SelectBook.swift
+//  SelectBookView.swift
 //  05-HPTrivia
 //
 //  Created by sorlenko on 06/09/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectBook: View {
+struct SelectBookView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Game.self) private var game
     
@@ -92,6 +92,6 @@ struct SelectBook: View {
 }
 
 #Preview {
-    SelectBook()
+    SelectBookView()
         .environment(Game())
 }

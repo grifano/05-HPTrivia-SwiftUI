@@ -29,7 +29,7 @@ struct ButtonSettings: View {
         }
         .animation(.easeInOut(duration: 1.5).delay(1), value: animatedViewIn)
         .sheet(isPresented: $showSettingsView) {
-            SelectBook()
+            SelectBookView()
         }
     }
 }

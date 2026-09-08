@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @State private var audioPlayer: AVAudioPlayer!
     @State private var animatedViewIn = false
+    @State private var startGame = false // Why if I use @Binding in other ButtonsView, but in ContentView it @State and no a @Binding too?
     
     var body: some View {
         GeometryReader { geo in
@@ -19,15 +20,15 @@ struct ContentView: View {
                 AnimatedBackgroundView(geo: geo)
                 
                 VStack {
-                    MainTitle(animatedViewIn: $animatedViewIn)
+                    MainTitleView(animatedViewIn: $animatedViewIn)
                     
                     Spacer()
                     
-                    RecentScore(animatedViewIn: $animatedViewIn)
+                    RecentScoreView(animatedViewIn: $animatedViewIn)
                     
                     Spacer()
                     
-                    ButtonsBar(animatedViewIn: $animatedViewIn, geo: geo)
+                    ButtonsBarView(animatedViewIn: $animatedViewIn, startGame: $startGame, geo: geo)
                     
                     Spacer()
                 }
@@ -37,7 +38,16 @@ struct ContentView: View {
         .ignoresSafeArea()
         .onAppear {
             animatedViewIn = true
-            //            playAudio()
+            playAudio()
+        }
+        .fullScreenCover(isPresented: $startGame) {
+            GameplayView()
+                .onAppear() {
+                    audioPlayer.setVolume(0, fadeDuration: 2)
+                }
+                .onDisappear() {
+                    audioPlayer.setVolume(1, fadeDuration: 3)
+                }
         }
     }
     

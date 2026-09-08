@@ -1,5 +1,5 @@
 //
-//  ButtonsBar.swift
+//  ButtonsBarView.swift
 //  05-HPTrivia
 //
 //  Created by sorlenko on 05/09/2026.
@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ButtonsBar: View {
+struct ButtonsBarView: View {
     
     @Binding var animatedViewIn: Bool
+    @Binding var startGame: Bool
     
     let geo: GeometryProxy
     
@@ -21,7 +22,7 @@ struct ButtonsBar: View {
             
             Spacer()
             
-            ButtonPlay(animatedViewIn: $animatedViewIn, geo: geo)
+            ButtonPlay(animatedViewIn: $animatedViewIn, startGame: $startGame, geo: geo)
             
             Spacer()
             
@@ -35,6 +36,6 @@ struct ButtonsBar: View {
 
 #Preview {
     GeometryReader {geo in
-        ButtonsBar(animatedViewIn: .constant(true), geo: geo)
+        ButtonsBarView(animatedViewIn: .constant(true), startGame: .constant(false), geo: geo)
     }
 }

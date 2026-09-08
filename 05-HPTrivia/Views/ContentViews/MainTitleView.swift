@@ -1,5 +1,5 @@
 //
-//  MainTitle.swift
+//  MainTitleView.swift
 //  05-HPTrivia
 //
 //  Created by sorlenko on 05/09/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainTitle: View {
+struct MainTitleView: View {
     @Binding var animatedViewIn: Bool
     
     var body: some View {
@@ -34,5 +34,5 @@ struct MainTitle: View {
 }
 
 #Preview {
-    MainTitle(animatedViewIn: .constant(true))
+    MainTitleView(animatedViewIn: .constant(true))
 }
