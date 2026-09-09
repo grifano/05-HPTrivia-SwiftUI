@@ -15,6 +15,8 @@ struct GameplayView: View {
     @State private var musicPlayer: AVAudioPlayer!
     @State private var sfxPlayer: AVAudioPlayer!
     
+    @State private var animatedInView = false
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -25,14 +27,35 @@ struct GameplayView: View {
                         Rectangle()
                             .foregroundStyle(.black.opacity(0.6))
                     }
-                    .onAppear() {
-                        playMusic()
-                    }
                 
                 VStack {
                     // MARK: Controls
+                    HStack {
+                        Button("End game") {
+                            game.endGame()
+                            dismiss()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                        .font(.title)
+                        
+                        Spacer()
+                        
+                        Text("Score: \(game.gameScore)")
+                            
+                    }
+                    .padding(20)
                     
                     // MARK: Question
+                    VStack {
+                        if animatedInView {
+                            Text(game.currentQuestion.question)
+                                .font(.custom("PartyLetPlain", size: 50))
+                                .multilineTextAlignment(.center)
+                                .transition(.scale)
+                        }
+                    }
+                    .animation(.easeOut(duration: 0.4), value: animatedInView)
                     
                     // MARK: Hint
                     
@@ -42,13 +65,18 @@ struct GameplayView: View {
                 
                 // MARK: Celebrations
             }
+            .foregroundStyle(.white)
             .frame(width: geo.size.width, height: geo.size.height)
         }
         .ignoresSafeArea()
         .onAppear() {
             game.startGame()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                animatedInView = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 playMusic()
             }
         }
