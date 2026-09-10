@@ -16,6 +16,7 @@ struct GameplayView: View {
     @State private var sfxPlayer: AVAudioPlayer!
     
     @State private var animatedInView = false
+    @State private var revealHint = false
     
     var body: some View {
         GeometryReader { geo in
@@ -58,6 +59,44 @@ struct GameplayView: View {
                     .animation(.easeOut(duration: 0.4), value: animatedInView)
                     
                     // MARK: Hint
+                    HStack {
+                        Image(systemName: "questionmark.app.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100)
+                            .foregroundStyle(.cyan)
+                            .padding()
+                            .transition(.offset(x: -geo.size.width/2))
+                            .phaseAnimator([false, true]) { content, phase in
+                                content
+                                    .rotationEffect(.degrees(phase ? -13 : -17))
+                            } animation: { _ in
+                                    .easeInOut(duration: 0.7)
+                            }
+                            .onTapGesture {
+                                withAnimation {
+                                    revealHint = true
+                                }
+                                game.gameScore -= 1
+                                playFlipSound()
+                            }
+                            .rotation3DEffect(.degrees(revealHint ? 1440 : 0), axis: (x: 0, y: 1, z: 0))
+                            .scaleEffect(revealHint ? 5 : 1)
+                            .offset(x: revealHint ? geo.size.width / 2 : 0)
+                            .opacity(revealHint ? 0 : 1)
+                            .overlay {
+                                Text(game.currentQuestion.hint)
+                                    .padding(.leading, 20)
+                                    .minimumScaleFactor(0.5)
+                                    .multilineTextAlignment(.center)
+                                    .opacity(revealHint ? 1 : 0)
+                                    .scaleEffect(revealHint ? 1.33 : 1)
+                            }
+                            
+                        
+                        Spacer()
+                    }
+                    .padding(20)
                     
                     // MARK: Answers
                 }
@@ -90,7 +129,7 @@ struct GameplayView: View {
         musicPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         musicPlayer.numberOfLoops = -1
         musicPlayer.volume = 0.1
-        musicPlayer.play()
+//        musicPlayer.play()
     }
     
     private func playCorrectSound() {
