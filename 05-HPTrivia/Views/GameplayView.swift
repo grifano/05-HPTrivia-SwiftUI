@@ -17,6 +17,7 @@ struct GameplayView: View {
     
     @State private var animatedInView = false
     @State private var revealHint = false
+    @State private var revealBook = false
     
     var body: some View {
         GeometryReader { geo in
@@ -99,6 +100,51 @@ struct GameplayView: View {
                         .animation(.easeOut(duration: 1.5 ).delay(2), value: animatedInView)
                         
                         Spacer()
+                        
+                        VStack {
+                            if animatedInView {
+                                Image(systemName: "app.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100)
+                                    .foregroundStyle(.cyan)
+                                    .overlay {
+                                     Image(systemName: "book.closed")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50)
+                                            .foregroundStyle(.black)
+                                    }
+                                    .padding()
+                                    .transition(.offset(x: geo.size.width/2))
+                                    .phaseAnimator([false, true]) { content, phase in
+                                        content
+                                            .rotationEffect(.degrees(phase ? 13 : 17))
+                                    } animation: { _ in
+                                            .easeInOut(duration: 0.7)
+                                    }
+                                    .onTapGesture {
+                                        withAnimation {
+                                            revealBook = true
+                                        }
+                                        game.gameScore -= 1
+                                        playFlipSound()
+                                    }
+                                    .rotation3DEffect(.degrees(revealBook ? 1440 : 0), axis: (x: 0, y: 1, z: 0))
+                                    .scaleEffect(revealBook ? 5 : 1)
+                                    .offset(x: revealBook ? geo.size.width / 2 : 0)
+                                    .opacity(revealBook ? 0 : 1)
+                                    .overlay {
+                                        Image("hp\(game.currentQuestion.book)")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .opacity(revealBook ? 1 : 0)
+                                            .scaleEffect(revealBook ? 1 : 1.5)
+                                            .clipShape(.rect(cornerRadius: 10))
+                                    }
+                            }
+                        }
+                        .animation(.easeOut(duration: 1.5 ).delay(2), value: animatedInView)
                     }
                     .padding(20)
                     
