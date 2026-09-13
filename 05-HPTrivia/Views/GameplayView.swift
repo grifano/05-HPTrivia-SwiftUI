@@ -21,6 +21,7 @@ struct GameplayView: View {
     @State private var revealBook = false
     @State private var correctQuestionTapped = false
     @State private var wrongAnswerTapped: [String] = []
+    @State private var scoreNumberMoved = false
     
     var body: some View {
         GeometryReader { geo in
@@ -171,6 +172,10 @@ struct GameplayView: View {
                                                     }
                                                     
                                                     playCorrectSound()
+                                                    
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                                                        game.correct()
+                                                    }
                                                 } label: {
                                                     Text(answer)
                                                         .minimumScaleFactor(0.5)
@@ -232,20 +237,17 @@ struct GameplayView: View {
                     // Game score
                     VStack {
                         if correctQuestionTapped {
-                            ZStack(alignment: .center) {
-                                Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .frame(width: 100)
-                                    .overlay {
-                                        Circle()
-                                            .stroke(lineWidth: 2)
-                                    }
-                                
-                                Text("\(game.gameScore)")
-                                    .font(.largeTitle)
-                            }
+                            Text("\(game.questionScore)")
+                                .font(.largeTitle)
                             .padding(.top, 50)
+                            .offset(x: scoreNumberMoved ? geo.size.width/2.3 : 0, y: scoreNumberMoved ? -geo.size.height/13 : 0)
+                            .opacity(scoreNumberMoved ? 0 : 1)
                             .transition(.offset(y: -geo.size.width/4).combined(with: .opacity))
+                            .onAppear {
+                                withAnimation(.easeInOut(duration: 1).delay(3)) {
+                                    scoreNumberMoved = true
+                                }
+                            }
                         }
                     }
                     .animation(.easeInOut(duration: 0.3).delay(0.4), value: correctQuestionTapped)
@@ -306,6 +308,7 @@ struct GameplayView: View {
                     }
                     
                     Spacer()
+                    Spacer()
                 }
             }
             .foregroundStyle(.white)
@@ -333,7 +336,7 @@ struct GameplayView: View {
         musicPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         musicPlayer.numberOfLoops = -1
         musicPlayer.volume = 0.1
-        musicPlayer.play()
+        //        musicPlayer.play()
     }
     
     private func playCorrectSound() {
