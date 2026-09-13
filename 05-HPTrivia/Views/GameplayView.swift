@@ -18,6 +18,7 @@ struct GameplayView: View {
     @State private var animatedInView = false
     @State private var revealHint = false
     @State private var revealBook = false
+    @State private var correctQuestionTapped = false
     
     var body: some View {
         GeometryReader { geo in
@@ -33,13 +34,17 @@ struct GameplayView: View {
                 VStack {
                     // MARK: Controls
                     HStack {
-                        Button("End game") {
+                        Button {
                             game.endGame()
                             dismiss()
+                        } label: {
+                         Text("End game")
+                                .font(.title2)
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 24)
+                                .background(.red.mix(with: .black, by: 0.4))
+                                .clipShape(.rect(cornerRadius: 12))
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
-                        .font(.title)
                         
                         Spacer()
                         
@@ -97,7 +102,7 @@ struct GameplayView: View {
                                     }
                             }
                         }
-                        .animation(.easeOut(duration: 1.5 ).delay(2), value: animatedInView)
+                        .animation(.easeOut(duration: 1.2).delay(1.2), value: animatedInView)
                         
                         Spacer()
                         
@@ -144,12 +149,51 @@ struct GameplayView: View {
                                     }
                             }
                         }
-                        .animation(.easeOut(duration: 1.5 ).delay(2), value: animatedInView)
+                        .animation(.easeOut(duration: 1.2 ).delay(1.2), value: animatedInView)
                     }
                     .padding(20)
                     
-                    
                     // MARK: Answers
+                    LazyVGrid(columns: [GridItem(), GridItem()]) {
+                        ForEach(game.answers, id: \.self) { answer in
+                            VStack {
+                                if animatedInView {
+                                    if answer == game.currentQuestion.answer {
+                                        Button {
+                                            correctQuestionTapped = true
+                                            playCorrectSound()
+                                        } label: {
+                                            Text(answer)
+                                                .minimumScaleFactor(0.5)
+                                                .multilineTextAlignment(.center)
+                                                .padding(8)
+                                                .frame(width: geo.size.width / 2.3, height: 90)
+                                                .background(correctQuestionTapped ? .green.mix(with: .black, by: 0.4) : .gray)
+                                                .clipShape(.rect(cornerRadius: 20))
+                                                .transition(.opacity)
+                                        }
+                                        
+                                    } else {
+                                        Button {
+                                            game.gameScore -= 1
+                                            playWrongSound()
+                                        } label: {
+                                            Text(answer)
+                                                .minimumScaleFactor(0.5)
+                                                .multilineTextAlignment(.center)
+                                                .padding(8)
+                                                .frame(width: geo.size.width / 2.3, height: 90)
+                                                .background(.gray)
+                                                .clipShape(.rect(cornerRadius: 20))
+                                                .transition(.opacity)
+                                        }
+                                    }
+                                }
+                            }
+                            .animation(.easeOut(duration: 1).delay(1), value: animatedInView)
+                        }
+                    }
+                    .padding(20)
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
                 
