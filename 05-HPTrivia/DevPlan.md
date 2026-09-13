@@ -3,20 +3,20 @@
 ## Screens
 - [✅] Game Intro screen
 - [✅] Instructions screen
-- [🟣] Gameplay screen
+- [✅] Gameplay screen
 - [ ] Store
 
 ## Game Logic
-- [🔵] Questions, scores, etc.
+- [✅] Questions, scores, etc.
 - [ ] Persist scores
 
 ## Content
-- [🔵] Books
+- [✅] Books
 
 ## Polish
-- [ ] Celebration
-- [🟣] Animations
-- [🟣] Audio
+- [✅] Celebration
+- [✅] Animations
+- [✅] Audio
 
 ## Monetization
 - [ ] In-app purchases
