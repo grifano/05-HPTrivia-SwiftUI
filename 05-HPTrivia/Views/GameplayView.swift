@@ -23,6 +23,8 @@ struct GameplayView: View {
     @State private var wrongAnswerTapped: [String] = []
     @State private var scoreNumberMoved = false
     
+    
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -348,7 +350,7 @@ struct GameplayView: View {
         musicPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         musicPlayer.numberOfLoops = -1
         musicPlayer.volume = 0.1
-        //        musicPlayer.play()
+                musicPlayer.play()
     }
     
     private func playCorrectSound() {

@@ -61,6 +61,7 @@ struct InfoScreenView: View {
                 .tint(.brown)
                 .frame(maxWidth: 200)
             }
+            .foregroundStyle(.black)
             .padding(.bottom, 40)
         }
     }

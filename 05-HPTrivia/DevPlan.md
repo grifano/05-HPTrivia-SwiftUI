@@ -8,10 +8,10 @@
 
 ## Game Logic
 - [✅] Questions, scores, etc.
-- [ ] Persist scores
+- [✅] Persist scores
 
 ## Content
-- [✅] Books
+- [🟣] Books
 
 ## Polish
 - [✅] Celebration
