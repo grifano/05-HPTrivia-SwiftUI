@@ -28,6 +28,35 @@ class Store {
     }
     
     // Purchase product
+    func purchase(_ product: Product) async {
+        do {
+            let result = try await product.purchase()
+            
+            switch result {
+            case .success(let verificationResult):
+            // Purchase successful, but now we need to verify receipt and transaction.
+                switch verificationResult {
+                case .unverified(let signedType, let verificationError):
+                    print("Error on \(signedType): \(verificationError)")
+                case .verified(let signedType):
+                    purchased.insert(signedType.productID)
+                    
+                    await signedType.finish()
+                }
+            case .userCancelled:
+            // User cancelled or parent disapproved child's purchase request.
+                break // For this case it not need, but it can be usefull in future. Like you can use it for marketing porpouse. To remind user about purchase.
+            case .pending:
+            // Waiting for some sort of approval. Like a child waiting for approval from a parents.
+                break
+            @unknown default:
+                break
+            }
+            
+        } catch {
+            print("Unable to purchase a product: \(error)")
+        }
+    }
     
     // Check for purchased products
     
