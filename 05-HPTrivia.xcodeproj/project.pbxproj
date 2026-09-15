@@ -14,6 +14,7 @@
 		BAC624243046B00C0076042E /* Exceptions for "05-HPTrivia" folder in "05-HPTrivia" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Challenges.md,
 				DevPlan.md,
 			);
 			target = BAC623F63046A91C0076042E /* 05-HPTrivia */;
@@ -25,6 +26,7 @@
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = BAC623F33046A91C0076042E /* Sources */;
 			membershipExceptions = (
+				Challenges.md,
 				DevPlan.md,
 			);
 		};
