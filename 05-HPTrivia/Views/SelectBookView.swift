@@ -11,8 +11,6 @@ struct SelectBookView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(Game.self) private var game
     
-    @State private var showPurchaseAllert = false
-    
     private var store = Store()
     
     var activeBook: Bool {
@@ -38,26 +36,33 @@ struct SelectBookView: View {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(), GridItem()]) {
                         ForEach(game.booksWithQuestions.books) {book in
-                            switch book.status {
-                            case .active:
+                            
+                            if book.status == .active || (book.status == .locked && store.purchased.contains(book.image)) {
                                 ActiveBook(book: book)
+                                    .task {
+                                        withAnimation {
+                                            game.booksWithQuestions.setStatus(for: book.id, to: .active)
+                                        }
+                                    }
                                 .onTapGesture {
                                     withAnimation {
                                         game.booksWithQuestions.setStatus(for: book.id, to: .inactive)
                                     }
                                 }
-                            case .inactive:
+                            } else if book.status == .inactive {
                                 InactiveBook(book: book)
                                 .onTapGesture {
                                     withAnimation {
                                         game.booksWithQuestions.setStatus(for: book.id, to: .active)
                                     }
                                 }
-                            default:
+                            } else {
                                 LockedBook(book: book)
                                 .onTapGesture {
-                                    withAnimation {
-                                        game.booksWithQuestions.setStatus(for: book.id, to: .inactive)
+                                    let product = store.products[book.id-4]
+                                    
+                                    Task {
+                                        await store.purchase(product)
                                     }
                                 }
                             }
@@ -90,9 +95,6 @@ struct SelectBookView: View {
             .padding(20)
         }
         .interactiveDismissDisabled(!activeBook)
-        .alert("You purchased a new question pack. Yay!", isPresented: $showPurchaseAllert) {
-
-        }
         .task {
             await store.loadProducts()
         }
