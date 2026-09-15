@@ -4,14 +4,14 @@
 - [✅] Game Intro screen
 - [✅] Instructions screen
 - [✅] Gameplay screen
-- [ ] Store
+- [✅] Store
 
 ## Game Logic
 - [✅] Questions, scores, etc.
 - [✅] Persist scores
 
 ## Content
-- [🟣] Books
+- [✅] Books
 
 ## Polish
 - [✅] Celebration
@@ -19,4 +19,4 @@
 - [✅] Audio
 
 ## Monetization
-- [ ] In-app purchases
+- [✅] In-app purchases
